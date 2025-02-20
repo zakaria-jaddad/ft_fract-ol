@@ -6,7 +6,7 @@
 /*   By: zajaddad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 15:47:18 by zajaddad          #+#    #+#             */
-/*   Updated: 2025/02/20 22:50:38 by zajaddad         ###   ########.fr       */
+/*   Updated: 2025/02/20 23:49:51 by zajaddad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,24 +64,25 @@ void	my_pixel_put(t_img *data, int x, int y, int color)
 /* check weather a point diverge or not */
 int ispoint_diverge(double real, double i, int iterations)
 {
+    t_complex z;
+    z.real = 0;
+    z.i = 0;
 
-        t_complex z; 
-        z.real = z.i = 0;
+    for (int iteration = 0; iteration < iterations; iteration++) {
+        double tmp_real = (z.real * z.real) - (z.i * z.i) + real;
+        z.i = 2 * (z.real * z.i) + i;
+        z.real = tmp_real;
 
-        for (int iteration = 0; iteration < iterations; iteration++) {
-                double tmp_real;
+        // Correct divergence check: If |z| > 2, return 0
+        if ((z.real * z.real + z.i * z.i) > 4)
+            return 0;
+    }
+    return 1;
+}
 
-                tmp_real = (z.real * z.real) - (z.i * z.i);
-                z.i = 2 * (z.real * z.i);
-                z.real = tmp_real;
 
-                // add point c
-                z.real += real;
-                z.i += i;
-                if ((z.real < -2 && z.real > 2) || (z.i < -2 && z.i > 2))
-                        return 0;
-        }
-        return 1;
+double map(double x, double in_min, double in_max, double out_min, double out_max) {
+    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
 
@@ -95,72 +96,28 @@ int main(void)
         void *mlx_window;
         t_img img;
 
-        /*
-         * // initialize an mlx window
-         * mlx_init: establish a connection to the correct graphical system and return void *
-         * which holds the location of the current MLX instance
-         */
         mlx = mlx_init();
 
-        /*
-         * // creat window using mlx
-         * mlx_new_window: creat a new windw and return a pointer to it
-         * mlx_loop: to initialize the windw redering
-         */
+
         mlx_window = mlx_new_window(mlx, WIDTH, HEIGHT, "Fract-ol");
 
-        /*
-         * mlx_new_image: initialize an image and put it in the mlx window
-         * returns the image address
-         */
+
         img.img = mlx_new_image(mlx, WIDTH, HEIGHT);
 
-        /*
-         *
-         * mlx_get_data_addr:
-         *      -> image pointer
-         *      -> bits_per_pixel
-         *      -> size_line
-         *      -> endian
-         * all pram are address, these will be set accordingly to be used
-         * returns the image address;
-         *
-         */
+
         img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
 
 
-        // formula
-        /* (a * a) — (bi * bi) + 2 * (a * bi) */
-        
-        for (double i = (WIDTH / 2.0) - 300; i <= (WIDTH / 2.0) + 300; i++)
-                my_pixel_put(&img, i, HEIGHT / 2, 0xFFFF0000);
 
-        for (double i = (HEIGHT / 2.0) - 300; i <= (HEIGHT / 2.0) + 300; i++)
-                my_pixel_put(&img, WIDTH / 2, i, 0xFFFF0000);
+        for (long x = 0; x < WIDTH; x++) {
+                for (long y = 0; y < HEIGHT; y++) {
+                        double real = map(x, 0, WIDTH, -2, 2);
+                        double i = map(y, 0, HEIGHT, -2, 2);
 
- 
-        /*
-         * from -2 -> 2  => -200 -> 200
-         */
-        for (double x = (WIDTH / 2.0) - 200; x <= (WIDTH / 2.0) + 200; x++) {
-                for (double y = (HEIGHT / 2.0) - 200; y <= (HEIGHT / 2.0) + 200; y++) {
-                        if (ispoint_diverge(x, y, ITERATION)) {
+                        if (ispoint_diverge(real, i, ITERATION))
                                 my_pixel_put(&img, x, y, 0xFFFFFFFF);
-                        }
-                        else
-                                my_pixel_put(&img, x, y, 0x00000000);
                 }
         }
-
-
-
-        /* for (int x = 0; x < HEIGHT; x++) { */
-        /*         for (int y = 0; y < WIDTH; y = y + 2) { */
-        /*                 my_pixel_put(&img, x, y, 0xFFFFFFFF); */
-        /*         } */
-        /* } */
-
-        // push image to the window
         mlx_put_image_to_window(mlx, mlx_window, img.img, 0, 0);
 
         mlx_loop(mlx);
