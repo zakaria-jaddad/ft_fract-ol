@@ -6,13 +6,15 @@
 /*   By: zajaddad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 18:44:18 by zajaddad          #+#    #+#             */
-/*   Updated: 2025/02/21 19:28:13 by zajaddad         ###   ########.fr       */
+/*   Updated: 2025/02/22 21:05:12 by zajaddad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fractol.h"
+#include "../fractol.h"
+#include <stdlib.h>
+#include <string.h>
 
-double	ft_atof(const char *string)
+double	ft_atof(char *string)
 {
 	int i, sign;
 	double val, power;
@@ -33,12 +35,11 @@ double	ft_atof(const char *string)
 		val = val * 10 + (string[i] - '0');
 		power *= 10;
 	}
-
-        // check end of string
-        if (string[i] != 0) {
-                ft_putstr_fd((char *) string, 2);
-                ft_putstr_fd(" Invalid Number\n", 2);
+	if (i < (int) strlen(string))
+	{
+                ft_putstr_fd(string, 2);
+                ft_putstr_fd("\nInvalid Number\n", 2);
                 exit(EXIT_FAILURE);
-        }
+	}
 	return (sign * val / power);
 }
