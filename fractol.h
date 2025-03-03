@@ -6,7 +6,7 @@
 /*   By: zajaddad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:37:35 by zajaddad          #+#    #+#             */
-/*   Updated: 2025/02/25 11:57:27 by zajaddad         ###   ########.fr       */
+/*   Updated: 2025/02/28 16:04:40 by zajaddad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@
 // macros
 # define HEIGHT 600
 # define WIDTH 700
-# define ITERATION 30
+# define ITERATION 1000
 # define BLACK 0x00000000
+#define ZOOMOUT_MAX 0.09
 
 enum			KEYS
 {
@@ -55,19 +56,16 @@ typedef struct s_zoom
 {
 	double		target_zoom;
 	double		current_zoom;
-	double		zoom_speed;
-	double		target_x;
-	double		target_y;
-	double		current_x;
-	double		current_y;
+        double zoom;
+	double	zoom_speed;
+	double	target_x;
+	double	target_y;
+	double	current_x;
+	double	current_y;
+	double	center_x;
+	double	center_y;
 }				t_zoom;
 
-typedef struct s_view
-{
-	double		center_x;
-	double		center_y;
-	double		zoom;
-}				t_view;
 
 typedef struct s_fractol
 {
@@ -77,10 +75,11 @@ typedef struct s_fractol
 	t_complex	z;
 	t_img		img;
 	t_zoom		zoom;
-        t_view          view;
 	int			(*fractol)(struct s_fractol *f, double real, double i,
 					int iterations);
 	int			color_index;
+        double offset_x;
+        double offset_y;
 
 }				t_fractol;
 

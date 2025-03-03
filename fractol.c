@@ -6,7 +6,7 @@
 /*   By: zajaddad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 15:47:18 by zajaddad          #+#    #+#             */
-/*   Updated: 2025/02/25 12:01:28 by zajaddad         ###   ########.fr       */
+/*   Updated: 2025/02/28 16:26:28 by zajaddad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,36 @@ int clean(t_fractol *f)
 
 int mouse_hook(int keycode, int x, int y, t_fractol *f) {
 
-        (void)x;
-        if (keycode == 5)  {
-                f->view.zoom += .5;
+        /* (void)x; */
+        if (keycode == ZOOMIN)  {
+                double	mouse_x;
+                double	mouse_y;
+
+                mouse_x = f->zoom.center_x
+                        - (x - 320) * 0.00625 / f->zoom.zoom;
+                mouse_y = f->zoom.center_y
+                        + (y - 240) * 0.00625 / f->zoom.zoom;
+                f->zoom.target_zoom /= 1.1;
+                f->zoom.target_x = mouse_x
+                        + (x - 320) * 0.00625 / f->zoom.target_zoom;
+                f->zoom.target_y = mouse_y
+                        - (y - 240) * 0.00625 / f->zoom.target_zoom;
         }
-        else if (keycode == ZOOMOUT && f->view.zoom > 1) {
-                f->view.zoom -= .5;
+        else if (keycode == ZOOMOUT && f->zoom.zoom > ZOOMOUT_MAX) {
+                double	mouse_x;
+                double	mouse_y;
+
+                mouse_x = f->zoom.center_x
+                        + (x - 320) * 0.00625 / f->zoom.zoom;
+                mouse_y = f->zoom.center_y
+                        - (y - 240) * 0.00625 / f->zoom.zoom;
+                f->zoom.target_zoom *= 1.1;
+                f->zoom.target_x = mouse_x
+                        - (x - 320) * 0.00625 / f->zoom.target_zoom;
+                f->zoom.target_y = mouse_y
+                        + (y - 240) * 0.00625 / f->zoom.target_zoom;
         }
-        x = y + 1;
-        draw_fractol(f);
+        /* x = y + 1; */
 	return (0);
 }
 
@@ -75,10 +96,10 @@ int animation(t_fractol *f) {
 		+= (f->zoom.target_x - f->zoom.current_x) * 1;
 	f->zoom.current_y
 		+= (f->zoom.target_y - f->zoom.current_y) * 1;
-	f->view.zoom = f->zoom.current_zoom;
-	f->view.center_x = f->zoom.current_x;
-	f->view.center_y = f->zoom.current_y;
-	draw_fractol(f);
+	f->zoom.zoom = f->zoom.current_zoom;
+	f->zoom.center_x = f->zoom.current_x;
+	f->zoom.center_y = f->zoom.current_y;
+        draw_fractol(f);
         return 0;
 }
 
@@ -90,8 +111,9 @@ int	main(int argc, char **argv)
 {
 
 	t_fractol	f;
-	f.view = (t_view){.center_x = 0, .center_y = 0, .zoom = 1.0};
-	f.zoom = (t_zoom){1.0, 1.0, 0.1, 0, 0, 0, 0};
+	f.zoom = (t_zoom){1.0, 1.0, 0.1, 0, 0, 0, 0, 0, 0, 0};
+        f.offset_x = 0;
+        f.offset_y = 0;
         f.color_index = 0;
         f.z.i = 0;
         f.z.real = 0;
@@ -132,7 +154,7 @@ int	main(int argc, char **argv)
         mlx_mouse_hook(f.mlx_window, mouse_hook, &f);
 	mlx_key_hook(f.mlx_window, key_hook, &f);
         mlx_hook(f.mlx_window, 17, 0, clean, &f);
-        /* mlx_loop_hook(f.mlx, animation, &f); */
+        mlx_loop_hook(f.mlx, animation, &f);
 	mlx_loop(f.mlx);
 	return (EXIT_SUCCESS);
 }

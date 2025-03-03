@@ -6,13 +6,12 @@
 /*   By: zajaddad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:49:52 by zajaddad          #+#    #+#             */
-/*   Updated: 2025/02/25 11:57:52 by zajaddad         ###   ########.fr       */
+/*   Updated: 2025/02/28 16:18:53 by zajaddad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fractol.h"
 #include <math.h>
-#include <stdio.h>
 
 int	mandelbrot(t_fractol *f, double real, double i, int iterations)
 {
@@ -68,8 +67,8 @@ void draw_fractol(t_fractol *f)
                 {
                         /* real = (x - 320) * 0.00625 / f->view.zoom + f->view.center_x; */
                         /* i = -(y - 240) * 0.00625 / f->view.zoom + f->view.center_y; */
-                        real = map(x, 0, WIDTH, -2, 2) / f->view.zoom + f->view.center_x;
-                        i = -map(y, 0, HEIGHT, -2, 2) / f->view.zoom + f->view.center_x;
+                        real = map(x, 0, WIDTH, -2, 2) / f->zoom.zoom + f->zoom.center_x;
+                        i = -map(y, 0, HEIGHT, -2, 2) / f->zoom.zoom + f->zoom.center_y;
                         /* printf("%f\n", f->view.zoom); */
                         /* real = map(x, 0, WIDTH, -2, 2) / f->view.zoom; */
                         /* i = map(y, 0, HEIGHT, -2, 2) / f->view.zoom; */
