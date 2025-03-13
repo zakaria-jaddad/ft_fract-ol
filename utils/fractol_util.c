@@ -6,7 +6,7 @@
 /*   By: zajaddad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:49:52 by zajaddad          #+#    #+#             */
-/*   Updated: 2025/02/28 16:18:53 by zajaddad         ###   ########.fr       */
+/*   Updated: 2025/03/09 00:52:36 by zajaddad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	mandelbrot(t_fractol *f, double real, double i, int iterations)
         f->z.i = f->z.real = 0;
 	for (int iteration = 0; iteration < iterations; iteration++)
 	{
-		tmp_real = (f->z.real * f->z.real) - (f->z.i * f->z.i) + real;
+		tmp_real = (f->z.i * f->z.i) - (f->z.real * f->z.real) + real;
 		f->z.i = 2 * (f->z.real * f->z.i) + i;
 		f->z.real = tmp_real;
 		// Correct divergence check: If |z| > 2, return 0
@@ -47,8 +47,8 @@ int	julia(t_fractol *f, double real, double i, int iterations)
 		// Correct divergence check: If |z| > 2, return 0
 		if ((real * real + i * i) > 4)
 			/* return (iteration + 1 - log(2) / tan(((real *real) + (i * i)))); */
-			return (iteration + 1 - log(2) / tan(tan(((real *real) + (i * i)))));
-			/* return (iteration + 1 -  (tan(((real *real) + (i * i)))) / log(2)); */
+			/* return (iteration + 1 - log(2) / tan(tan(((real * real) + (i * i))))); */
+			return (iteration + 1 - (tan(((real *real) + (i * i)))) / log(2));
 			/* return (iteration + 1 -  (sqrt(tan(((real *real) + (i * i))))) / log(2)); */
 
 	}

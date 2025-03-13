@@ -6,7 +6,7 @@
 /*   By: zajaddad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 15:47:18 by zajaddad          #+#    #+#             */
-/*   Updated: 2025/02/28 16:26:28 by zajaddad         ###   ########.fr       */
+/*   Updated: 2025/03/09 00:44:07 by zajaddad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int clean(t_fractol *f)
         f->img.img = NULL;
         f->img.addr = NULL;
         exit(EXIT_SUCCESS);
-        return 0;
 }
 
 int mouse_hook(int keycode, int x, int y, t_fractol *f) {
@@ -145,7 +144,9 @@ int	main(int argc, char **argv)
 
 	f.mlx = mlx_init();
 	f.mlx_window = mlx_new_window(f.mlx, WIDTH, HEIGHT, "Fract-ol");
-	f.img.img = mlx_new_image(f.mlx, WIDTH, HEIGHT);
+	/* f.img.img = mlx_new_image(f.mlx, WIDTH, HEIGHT); */
+        f.img.img = mlx_new_image(f.mlx, WIDTH, HEIGHT);
+
 	f.img.addr = mlx_get_data_addr(f.img.img, &f.img.bits_per_pixel, &f.img.line_length,
 			&f.img.endian);
 
