@@ -6,7 +6,7 @@
 /*   By: zajaddad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 19:09:26 by zajaddad          #+#    #+#             */
-/*   Updated: 2025/02/21 19:09:37 by zajaddad         ###   ########.fr       */
+/*   Updated: 2025/03/13 23:39:08 by zajaddad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void	ft_putstr_fd(char *s, int fd)
 {
 	if (s == NULL)
 		return ;
-        while (*s) {
-	         (void)!write(fd, s++, 1);
-        }
+	while (*s)
+	{
+		(void)!write(fd, s++, 1);
+	}
 }

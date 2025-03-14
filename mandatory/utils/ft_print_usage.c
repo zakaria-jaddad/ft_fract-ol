@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_name.c                                         :+:      :+:    :+:   */
+/*   ft_print_usage.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zajaddad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/22 15:06:15 by zajaddad          #+#    #+#             */
-/*   Updated: 2025/02/22 15:06:31 by zajaddad         ###   ########.fr       */
+/*   Created: 2025/03/13 23:58:27 by zajaddad          #+#    #+#             */
+/*   Updated: 2025/03/13 23:58:46 by zajaddad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fractol.h"
 
-char *get_name(char *name)
+void	ft_print_usage(void)
 {
-        if (ft_strcmp(name, "mandelbrot") == 0)
-                return "mandelbrot";
-        else if (ft_strcmp(name, "julia") == 0)
-                return "julia";
-        return NULL;
+	ft_putstr_fd("Usage:\n ", 2);
+	ft_putstr_fd("./fractol mandelbrot\n ", 2);
+	ft_putstr_fd("./fractol julia <real> <i>\n", 2);
 }

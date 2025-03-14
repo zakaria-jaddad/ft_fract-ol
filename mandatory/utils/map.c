@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zajaddad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/21 18:57:01 by zajaddad          #+#    #+#             */
-/*   Updated: 2025/02/21 19:14:12 by zajaddad         ###   ########.fr       */
+/*   Created: 2025/02/22 14:59:16 by zajaddad          #+#    #+#             */
+/*   Updated: 2025/03/14 00:33:49 by zajaddad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fractol.h"
 
-int	ft_isdigit(char c)
+double	map(double x, double in_min, double in_max)
 {
-	return (c >= '0' && c <= '9');
+	double	out_min;
+	double	out_max;
+
+	out_min = -2;
+	out_max = 2;
+	return ((x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min);
 }

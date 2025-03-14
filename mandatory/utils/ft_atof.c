@@ -6,40 +6,53 @@
 /*   By: zajaddad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 18:44:18 by zajaddad          #+#    #+#             */
-/*   Updated: 2025/02/22 21:05:12 by zajaddad         ###   ########.fr       */
+/*   Updated: 2025/03/13 23:36:03 by zajaddad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fractol.h"
-#include <stdlib.h>
-#include <string.h>
+
+static void	atof_body(double *val, double *power, int *i, char *string)
+{
+	while (ft_isdigit(string[*i]))
+	{
+		*val = *val * 10 + (string[*i] - '0');
+		*i = *i + 1;
+	}
+	if (string[*i] == '.')
+		*i = *(i) + 1;
+	while (ft_isdigit(string[*i]))
+	{
+		*val = *val * 10 + (string[*i] - '0');
+		*i = *i + 1;
+		*power = *power * 10.0;
+	}
+}
 
 double	ft_atof(char *string)
 {
-	int i, sign;
-	double val, power;
-	// skip white spaces
-	for (i = 0; string[i] == ' '; i++)
-		;
-	// check for the sign
-	sign = (string[i] == '-') ? -1 : 1;
+	int		i;
+	int		sign;
+	double	val;
+	double	power;
+
+	(void)!(sign = 1, val = 0.0, power = 1.0, i = 0, 0);
+	while (string[i] == ' ')
+		i++;
 	if (string[i] == '+' || string[i] == '-')
-		i++;
-	// start iterating
-	for (val = 0.0; ft_isdigit(string[i]); i++)
-		val = val * 10 + (string[i] - '0');
-	if (string[i] == '.')
-		i++;
-	for (power = 1.0; ft_isdigit(string[i]); i++)
 	{
-		val = val * 10 + (string[i] - '0');
-		power *= 10;
+		if (string[i] == '-')
+			sign = -1;
+		i++;
 	}
-	if (i < (int) strlen(string))
+	atof_body(&val, &power, &i, string);
+	while (string[i] == ' ')
+		i++;
+	if (string[i] != 0)
 	{
-                ft_putstr_fd(string, 2);
-                ft_putstr_fd("\nInvalid Number\n", 2);
-                exit(EXIT_FAILURE);
+		ft_putstr_fd(string, 2);
+		ft_putstr_fd("\nInvalid Number\n", 2);
+		exit(EXIT_FAILURE);
 	}
 	return (sign * val / power);
 }
