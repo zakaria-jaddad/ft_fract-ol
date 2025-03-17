@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: zajaddad <marvin@42.fr>                    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/03/13 21:59:32 by zajaddad          #+#    #+#              #
-#    Updated: 2025/03/14 02:58:43 by zajaddad         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 MSRC =	./mandatory/fractol.c \
 	./mandatory/utils/ft_print_usage.c \
 	./mandatory/utils/ft_atof.c \
@@ -22,17 +10,17 @@ MSRC =	./mandatory/fractol.c \
 	./mandatory/utils/get_color.c \
 	./mandatory/utils/fractol_util.c \
 
-BSRC =	./bonus/fractol.c \
-	./bonus/utils/ft_print_usage.c \
-	./bonus/utils/ft_atof.c \
-	./bonus/utils/ft_putstr_fd.c \
-	./bonus/utils/ft_isdigit.c \
-	./bonus/utils/my_pixel_put.c \
-	./bonus/utils/map.c \
-	./bonus/utils/ft_strcmp.c \
-	./bonus/utils/get_name.c \
-	./bonus/utils/get_color.c \
-	./bonus/utils/fractol_util.c \
+BSRC =	./bonus/fractol_bonus.c \
+	./bonus/utils/ft_print_usage_bonus.c \
+	./bonus/utils/ft_atof_bonus.c \
+	./bonus/utils/ft_putstr_fd_bonus.c \
+	./bonus/utils/ft_isdigit_bonus.c \
+	./bonus/utils/my_pixel_put_bonus.c \
+	./bonus/utils/map_bonus.c \
+	./bonus/utils/ft_strcmp_bonus.c \
+	./bonus/utils/get_name_bonus.c \
+	./bonus/utils/get_color_bonus.c \
+	./bonus/utils/fractol_util_bonus.c \
 
 MOBJ = $(MSRC:.c=.o)
 BOBJ = $(BSRC:.c=.o)
@@ -40,30 +28,31 @@ BOBJ = $(BSRC:.c=.o)
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
 
-INCLUDE = ./mandatory/fractol.h
-INCLUDE_BONUS = ./bonus/fractol_bonus.h
-
 NAME = fractol
+NAME_BONUS = fractol_bonus
 
 all: $(NAME)
 
+bonus: $(NAME_BONUS)
+
 $(NAME): $(MOBJ)
-	$(CC) $(MOBJ) -Lmlx -lmlx -L/usr/lib -Imlx -lXext -lX11 -lm -lz -o $(NAME)
+	$(CC) $(CFLAGS) $(MOBJ) -Lmlx -lmlx -L/usr/lib -Imlx -lXext -lX11 -O3 -o $(NAME)
 
-bonus: $(BOBJ)
-	$(CC) $(MOBJ) -Lmlx -lmlx -L/usr/lib -Imlx -lXext -lX11 -lm -lz -o $(NAME)
+$(NAME_BONUS): $(BOBJ)
+	$(CC) $(CFLAGS) $(BOBJ) -Lmlx -lmlx -L/usr/lib -Imlx -lXext -lX11 -O3 -o $(NAME_BONUS)
 
-$(MOBJ): %.o: %.c $(INCLUDE)
-	$(CC) $(CFLAGS) -Imlx -c $< -o $@
+%.o: %.c
+	$(CC) $(CFLAGS) -Imlx -c -O3 $< -o  $@ -MMD
 
-$(BOBJ): %.o: %.c $(INCLUDE_BONUS)
-	$(CC) $(CFLAGS) -Imlx -c $< -o $@
 re: fclean all
 
 clean: 
 	rm -rf $(MOBJ) $(BOBJ)
 
 fclean: clean
-	rm -rf $(NAME)
+	rm -rf $(NAME) $(NAME_BONUS) $(MOBJ:.o=.d) $(BOBJ:.o=.d)
 
 .PHONY: clean
+
+-include $(MOBJ:.o=.d)
+-include $(BOBJ:.o=.d)
