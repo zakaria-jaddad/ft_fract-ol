@@ -6,7 +6,7 @@
 /*   By: zajaddad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:37:35 by zajaddad          #+#    #+#             */
-/*   Updated: 2025/03/17 15:05:59 by zajaddad         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:52:35 by zajaddad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "../mlx/mlx.h"
 # include <stdlib.h>
 # include <unistd.h>
+#include <stdio.h>
 
 // macros
 # define HEIGHT 900
@@ -51,6 +52,23 @@ typedef struct s_complex
 	double		i;
 }				t_complex;
 
+
+typedef struct s_zoom {
+	double	target_zoom;
+	double	current_zoom;
+	double	zoom_speed;
+	double	target_x;
+	double	target_y;
+	double	current_x;
+	double	current_y;
+}	t_zoom;
+
+typedef struct s_view {
+	double	center_x;
+	double	center_y;
+	double	zoom;
+}	t_view;
+
 typedef struct s_fractol
 {
 	char		*name;
@@ -58,12 +76,14 @@ typedef struct s_fractol
 	void		*mlx_window;
 	t_complex	z;
 	t_img		img;
-	double		zoom;
+	// double	zoom;
 	int			(*fractol)(struct s_fractol *f, double real, double i,
 					int iterations);
         int color_shift;
         double x_scale;
         double y_scale;
+        t_view view;
+        t_zoom zoom;
 }				t_fractol;
 // ---- utils ----
 void			draw_fractol(t_fractol *f);

@@ -6,7 +6,7 @@
 /*   By: zajaddad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:49:52 by zajaddad          #+#    #+#             */
-/*   Updated: 2025/03/17 15:04:02 by zajaddad         ###   ########.fr       */
+/*   Updated: 2025/03/19 17:11:21 by zajaddad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ void	draw_fractol(t_fractol *f)
 		y = 0;
 		while (y < HEIGHT)
 		{
-			real = (map(x, 0, WIDTH) + f->x_scale) / f->zoom;
-			i = (-map(y, 0, HEIGHT) + f->y_scale) / f->zoom;
+                        real = map(x, 0, WIDTH) / f->view.zoom + f->view.center_x;
+                        i = -map(y, 0, HEIGHT) / f->view.zoom + f->view.center_y;
 			color = f->fractol(f, real, i, ITERATION);
 			if (color == ITERATION)
 				my_pixel_put(&f->img, x, y, BLACK);

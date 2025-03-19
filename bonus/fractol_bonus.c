@@ -5,71 +5,94 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: zajaddad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/17 15:47:18 by zajaddad          #+#    #+#             */
-/*   Updated: 2025/03/17 15:07:17 by zajaddad         ###   ########.fr       */
+/*   Created: 2025/03/19 17:11:37 by zajaddad          #+#    #+#             */
+/*   Updated: 2025/03/19 17:11:38 by zajaddad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./fractol_bonus.h"
 
+static void	zoom_in(int x, int y, t_fractol *f)
+{
+	double	mx;
+	double	my;
+	double	mouse_x;
+	double	mouse_y;
+
+	mx = map(x, 0, WIDTH);
+	my = map(y, 0, HEIGHT);
+	mouse_x = f->view.center_x + mx / f->view.zoom;
+	mouse_y = f->view.center_y - my / f->view.zoom;
+	f->zoom.target_zoom *= 1.1;
+	f->zoom.target_x = mouse_x - mx / f->zoom.target_zoom;
+	f->zoom.target_y = mouse_y + my / f->zoom.target_zoom;
+	f->zoom.current_zoom += (f->zoom.target_zoom - f->zoom.current_zoom) * 1;
+	f->zoom.current_x += (f->zoom.target_x - f->zoom.current_x) * 1;
+	f->zoom.current_y += (f->zoom.target_y - f->zoom.current_y) * 1;
+	f->view.zoom = f->zoom.current_zoom;
+	f->view.center_x = f->zoom.current_x;
+	f->view.center_y = f->zoom.current_y;
+}
+
+static void	zoom_out(int x, int y, t_fractol *f)
+{
+	double	mx;
+	double	my;
+	double	mouse_x;
+	double	mouse_y;
+
+	mx = map(x, 0, WIDTH);
+	my = map(y, 0, HEIGHT);
+	mouse_x = f->view.center_x - mx / f->view.zoom;
+	mouse_y = f->view.center_y + my / f->view.zoom;
+	f->zoom.target_zoom /= 1.1;
+	f->zoom.target_x = mouse_x + mx / f->zoom.target_zoom;
+	f->zoom.target_y = mouse_y - my / f->zoom.target_zoom;
+	f->zoom.current_zoom += (f->zoom.target_zoom - f->zoom.current_zoom) * 1;
+	f->zoom.current_x += (f->zoom.target_x - f->zoom.current_x) * 1;
+	f->zoom.current_y += (f->zoom.target_y - f->zoom.current_y) * 1;
+	f->view.zoom = f->zoom.current_zoom;
+	f->view.center_x = f->zoom.current_x;
+	f->view.center_y = f->zoom.current_y;
+}
+
 int	mouse_hook(int keycode, int x, int y, t_fractol *f)
 {
-        double z;
-
-        z = 0;
-        (void)x;
-        (void)y;
 	if (keycode == ZOOMIN)
-	{
-                z = .9;
-		f->zoom *= 1.1;
-	}
-	else if (keycode == ZOOMOUT && f->zoom > 1)
-	{
-                z = 1.1;
-		f->zoom /= 1.1;
-	}
+		zoom_in(x, y, f);
+	else if (keycode == ZOOMOUT && f->view.zoom > 1)
+		zoom_out(x, y, f);
 	draw_fractol(f);
 	return (0);
 }
 
 int	key_hook(int keycode, t_fractol *f)
 {
-        if (keycode == COLOR)
-        {
-                f->color_shift += 20;
-                draw_fractol(f);
-        }
-        else if (keycode == RIGHT)
-        {
-               f->x_scale -= map(f->x_scale - 5, 0, WIDTH) / f->zoom ;
-               draw_fractol(f);
-        }
-        else if (keycode == LEFT)
-        {
-               f->x_scale += map(f->x_scale - 5, 0, WIDTH) / f->zoom ;
-               draw_fractol(f);
-        }
-        else if(keycode == DOWN)
-        {
-               f->y_scale += map(f->y_scale - 5, 0, HEIGHT) / f->zoom ;
-               draw_fractol(f);
-        }
-        else if(keycode == UP)
-        {
-               f->y_scale -= map(f->y_scale - 5, 0, HEIGHT) / f->zoom ;
-               draw_fractol(f);
-        }
-        else if (keycode == ECS)
-                clean(f);
+	(void)keycode;
+	(void)f;
+	if (keycode == ECS)
+		return (clean(f));
+	if (keycode == COLOR)
+		f->color_shift += 20;
+	else if (keycode == RIGHT)
+		f->view.center_x += 0.1;
+	else if (keycode == LEFT)
+		f->view.center_x -= 0.1;
+	else if (keycode == DOWN)
+		f->view.center_y -= 0.1;
+	else if (keycode == UP)
+		f->view.center_y += 0.1;
+	draw_fractol(f);
 	return (0);
 }
 
 void	ft_fractol_parsing(int argc, char **argv, t_fractol *f)
 {
-	f->z.i = (f->z.real = 0, f->zoom = 1, f->color_shift = 0, 0);
-        f->x_scale = 0;
-        f->y_scale = 0;
+	f->z.i = (f->z.real = 0, f->color_shift = 0, 0);
+	f->x_scale = 0;
+	f->y_scale = 0;
+	f->view = (t_view){0, 0, 1.0};
+	f->zoom = (t_zoom){1.0, 1.0, 0.1, 0, 0, 0, 0};
 	if (argc < 2)
 		(void)(ft_print_usage(), exit(EXIT_FAILURE));
 	f->name = get_name(argv[1]);
@@ -113,9 +136,8 @@ void	ft_init_fractal(t_fractol *f)
 	}
 	f->img.addr = mlx_get_data_addr(f->img.img, &f->img.bits_per_pixel,
 			&f->img.line_length, &f->img.endian);
-	if (f->img.addr == NULL) {
+	if (f->img.addr == NULL)
 		clean(f);
-        }
 }
 
 /*
