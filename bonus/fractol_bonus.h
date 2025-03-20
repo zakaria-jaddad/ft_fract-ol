@@ -6,7 +6,7 @@
 /*   By: zajaddad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:37:35 by zajaddad          #+#    #+#             */
-/*   Updated: 2025/03/20 17:04:08 by zajaddad         ###   ########.fr       */
+/*   Updated: 2025/03/20 17:19:53 by zajaddad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define FRACTOL_H
 
 # include "../mlx/mlx.h"
-# include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 
@@ -92,8 +91,7 @@ void			ft_print_usage(void);
 char			*get_name(char *name);
 char			*ft_strtrim(char const *s1, char const *set);
 void			ft_putstr_fd(char *s, int fd);
-void			zoom_in(int x, int y, t_fractol *f);
-void			zoom_out(int x, int y, t_fractol *f);
+void			zoom(int x, int y, t_fractol *f);
 double			ft_atof(char *string);
 double			map(double x, double in_min, double in_max);
 int				get_color(int iter);

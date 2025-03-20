@@ -6,7 +6,7 @@
 /*   By: zajaddad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 17:11:37 by zajaddad          #+#    #+#             */
-/*   Updated: 2025/03/20 17:11:16 by zajaddad         ###   ########.fr       */
+/*   Updated: 2025/03/20 17:20:38 by zajaddad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 int	mouse_hook(int keycode, int x, int y, t_fractol *f)
 {
 	if (keycode == ZOOMIN)
-		zoom_in(x, y, f);
+	        f->zoom.target_zoom *= 1.1;
 	else if (keycode == ZOOMOUT && f->view.zoom > 1)
-		zoom_out(x, y, f);
+	        f->zoom.target_zoom /= 1.1;
+        zoom(x, y, f);
 	draw_fractol(f);
 	return (0);
 }
@@ -61,7 +62,6 @@ void	ft_fractol_parsing(int argc, char **argv, t_fractol *f)
 	}
 	if (ft_strcmp("mandelbrot", f->name) == 0 || ft_strcmp("burning_ship", f->name) == 0)
 	{
-                printf("hello\n");
 		if (argc > 2)
 			(void)(ft_print_usage(), exit(EXIT_FAILURE));
                 if (ft_strcmp("mandelbrot", f->name) == 0)

@@ -9,6 +9,8 @@ MSRC =	./mandatory/fractol.c \
 	./mandatory/utils/get_name.c \
 	./mandatory/utils/get_color.c \
 	./mandatory/utils/fractol_util.c \
+	./mandatory/utils/ft_strlen.c	\
+	./mandatory/utils/ft_strtrim.c	\
 
 BSRC =	./bonus/fractol_bonus.c \
 	./bonus/utils/ft_print_usage_bonus.c \
@@ -21,6 +23,11 @@ BSRC =	./bonus/fractol_bonus.c \
 	./bonus/utils/get_name_bonus.c \
 	./bonus/utils/get_color_bonus.c \
 	./bonus/utils/fractol_util_bonus.c \
+	./bonus/utils/zoom_bonus.c	\
+	./bonus/utils/ft_strlen_bonus.c	\
+	./bonus/utils/ft_strtrim_bonus.c \
+
+
 
 MOBJ = $(MSRC:.c=.o)
 BOBJ = $(BSRC:.c=.o)
@@ -47,10 +54,10 @@ $(NAME_BONUS): $(BOBJ)
 re: fclean all
 
 clean: 
-	rm -rf $(MOBJ) $(BOBJ)
+	rm -rf $(MOBJ) $(BOBJ) $(MOBJ:.o=.d) $(BOBJ:.o=.d)
 
 fclean: clean
-	rm -rf $(NAME) $(NAME_BONUS) $(MOBJ:.o=.d) $(BOBJ:.o=.d)
+	rm -rf $(NAME) $(NAME_BONUS) 
 
 .PHONY: clean
 
