@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map.c                                              :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zajaddad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/22 14:59:16 by zajaddad          #+#    #+#             */
-/*   Updated: 2025/03/14 06:46:40 by zajaddad         ###   ########.fr       */
+/*   Created: 2025/03/20 12:31:29 by zajaddad          #+#    #+#             */
+/*   Updated: 2025/03/20 12:31:45 by zajaddad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../fractol.h"
+#include  "../fractol.h"
 
-double	map(double x, double in_min, double in_max)
+int	ft_strlen(const char *s)
 {
-	double	out_min;
-	double	out_max;
+	int	length;
 
-	out_min = -2;
-	out_max = 2;
-	return ((x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min);
+	length = 0;
+	while (*s++)
+		length++;
+	return (length);
 }

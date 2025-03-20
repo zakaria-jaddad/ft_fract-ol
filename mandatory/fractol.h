@@ -6,7 +6,7 @@
 /*   By: zajaddad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:37:35 by zajaddad          #+#    #+#             */
-/*   Updated: 2025/03/14 00:57:28 by zajaddad         ###   ########.fr       */
+/*   Updated: 2025/03/20 17:04:11 by zajaddad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,13 @@
 # define FRACTOL_H
 
 # include "../mlx/mlx.h"
-# include <math.h>
 # include <stdlib.h>
 # include <unistd.h>
 
 // macros
-# define HEIGHT 600
-# define WIDTH 700
-# define ITERATION 30
+# define HEIGHT 900
+# define WIDTH 900
+# define ITERATION 250
 # define BLACK 0x00000000
 
 enum			e_KEYS
@@ -60,8 +59,7 @@ typedef struct s_fractol
 	t_img		img;
 	double		zoom;
 	int			(*fractol)(struct s_fractol *f, double real, double i,
-			int iterations);
-	int			color_index;
+					int iterations);
 
 }				t_fractol;
 
@@ -70,13 +68,16 @@ void			draw_fractol(t_fractol *f);
 void			my_pixel_put(t_img *data, int x, int y, int color);
 void			ft_print_usage(void);
 char			*get_name(char *name);
+char			*ft_strtrim(char const *s1, char const *set);
 void			ft_putstr_fd(char *s, int fd);
 double			ft_atof(char *string);
 double			map(double x, double in_min, double in_max);
-int				get_color(double mu);
+int				get_color(int iter);
 int				mandelbrot(t_fractol *f, double real, double i, int iterations);
 int				julia(t_fractol *f, double real, double i, int iterations);
 int				ft_strcmp(const char *s1, const char *s2);
 int				ft_isdigit(char c);
+int				clean(t_fractol *f);
+int				ft_strlen(const char *s);
 
 #endif // !FRACTOL_H

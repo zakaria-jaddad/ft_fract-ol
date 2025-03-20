@@ -6,11 +6,26 @@
 /*   By: zajaddad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:49:52 by zajaddad          #+#    #+#             */
-/*   Updated: 2025/03/14 00:47:09 by zajaddad         ###   ########.fr       */
+/*   Updated: 2025/03/15 09:43:32 by zajaddad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../fractol.h"
+
+int	clean(t_fractol *f)
+{
+	mlx_destroy_image(f->mlx, f->img.img);
+	mlx_destroy_window(f->mlx, f->mlx_window);
+	mlx_destroy_display(f->mlx);
+	free(f->mlx);
+	f->mlx = NULL;
+	f->mlx_window = NULL;
+	f->mlx_window = NULL;
+	f->img.img = NULL;
+	f->img.addr = NULL;
+	exit(EXIT_SUCCESS);
+	return (0);
+}
 
 int	mandelbrot(t_fractol *f, double real, double i, int iterations)
 {
@@ -25,11 +40,10 @@ int	mandelbrot(t_fractol *f, double real, double i, int iterations)
 		f->z.i = 2 * (f->z.real * f->z.i) + i;
 		f->z.real = tmp_real;
 		if ((f->z.real * f->z.real + f->z.i * f->z.i) > 4)
-			return (iteration + 1 - log(2) / tan(tan(((real * real) + (i
-								* i)))));
+			return (iteration);
 		iteration++;
 	}
-	return (0);
+	return (iteration);
 }
 
 int	julia(t_fractol *f, double real, double i, int iterations)
@@ -43,12 +57,11 @@ int	julia(t_fractol *f, double real, double i, int iterations)
 		tmp_real = (real * real) - (i * i) + f->z.real;
 		i = 2 * (real * i) + f->z.i;
 		real = tmp_real;
-		if ((real * real + i * i) > 4)
-			return (iteration + 1 - log(2) / tan(tan(((real * real) + (i
-								* i)))));
 		iteration++;
+		if ((real * real + i * i) > 4)
+			return (iteration);
 	}
-	return (0);
+	return (iteration);
 }
 
 void	draw_fractol(t_fractol *f)
@@ -68,10 +81,10 @@ void	draw_fractol(t_fractol *f)
 			real = map(x, 0, WIDTH) / f->zoom;
 			i = -map(y, 0, HEIGHT) / f->zoom;
 			color = f->fractol(f, real, i, ITERATION);
-			if (color != 0)
-				my_pixel_put(&f->img, x, y, get_color(color) + f->color_index);
-			else
+			if (color == ITERATION)
 				my_pixel_put(&f->img, x, y, BLACK);
+			else
+				my_pixel_put(&f->img, x, y, get_color(color));
 			y++;
 		}
 		x++;
