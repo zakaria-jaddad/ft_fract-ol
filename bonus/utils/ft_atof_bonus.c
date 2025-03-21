@@ -6,7 +6,7 @@
 /*   By: zajaddad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 18:44:18 by zajaddad          #+#    #+#             */
-/*   Updated: 2025/03/20 17:02:02 by zajaddad         ###   ########.fr       */
+/*   Updated: 2025/03/21 11:49:20 by zajaddad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	ft_atof_error(char *string)
 {
 	ft_putstr_fd(string, 2);
 	ft_putstr_fd("\nInvalid Number\n", 2);
-        (free(string), string = NULL);
+	(free(string), string = NULL);
 	exit(EXIT_FAILURE);
 }
 
@@ -55,17 +55,17 @@ double	ft_atof(char *string)
 		(void)(free(string), string = NULL,
 			ft_putstr_fd("ft_strtrim Allocation Error\n", 2),
 			exit(EXIT_FAILURE));
-        if (string[i] == 0)
-                ft_atof_error(string);
+	if (string[i] == 0)
+		ft_atof_error(string);
 	if (string[i] == '+' || string[i] == '-')
 	{
 		if (string[i++] == '-')
 			sign = -1;
-                if ((string[i] == '.' && string[i + 1] == 0) || string[i] == 0)
-                        ft_atof_error(string);
+		if ((string[i] == '.' && string[i + 1] == 0) || string[i] == 0)
+			ft_atof_error(string);
 	}
 	if (atof_body(&val, &power, &i, string) == 0 || string[i] != 0)
-                ft_atof_error(string);
+		ft_atof_error(string);
 	(void)!(free(string), string = NULL);
 	return (sign * val / power);
 }

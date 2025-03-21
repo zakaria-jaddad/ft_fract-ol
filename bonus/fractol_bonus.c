@@ -6,7 +6,7 @@
 /*   By: zajaddad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 17:11:37 by zajaddad          #+#    #+#             */
-/*   Updated: 2025/03/20 17:20:38 by zajaddad         ###   ########.fr       */
+/*   Updated: 2025/03/21 11:56:47 by zajaddad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 int	mouse_hook(int keycode, int x, int y, t_fractol *f)
 {
 	if (keycode == ZOOMIN)
-	        f->zoom.target_zoom *= 1.1;
+		f->zoom.target_zoom *= 1.1;
 	else if (keycode == ZOOMOUT && f->view.zoom > 1)
-	        f->zoom.target_zoom /= 1.1;
-        zoom(x, y, f);
+		f->zoom.target_zoom /= 1.1;
+	zoom(x, y, f);
 	draw_fractol(f);
 	return (0);
 }
@@ -56,17 +56,17 @@ void	ft_fractol_parsing(int argc, char **argv, t_fractol *f)
 	{
 		if (!argv[2] || !argv[3] || argv[4])
 			(void)(ft_print_usage(), exit(EXIT_FAILURE));
-		f->z.real = ft_atof(argv[2]);
-		f->z.i = ft_atof(argv[3]);
+		(void)!(f->z.real = ft_atof(argv[2]), f->z.i = ft_atof(argv[3]));
 		f->fractol = julia;
 	}
-	if (ft_strcmp("mandelbrot", f->name) == 0 || ft_strcmp("burning_ship", f->name) == 0)
+	if (ft_strcmp("mandelbrot", f->name) == 0 || ft_strcmp("burning_ship",
+			f->name) == 0)
 	{
 		if (argc > 2)
 			(void)(ft_print_usage(), exit(EXIT_FAILURE));
-                if (ft_strcmp("mandelbrot", f->name) == 0)
-                        return (f->fractol = mandelbrot, (void)0);
-                f->fractol = burning_ship;
+		if (ft_strcmp("mandelbrot", f->name) == 0)
+			return (f->fractol = mandelbrot, (void)0);
+		f->fractol = burning_ship;
 	}
 }
 

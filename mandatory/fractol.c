@@ -6,7 +6,7 @@
 /*   By: zajaddad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 15:47:18 by zajaddad          #+#    #+#             */
-/*   Updated: 2025/03/20 15:50:01 by zajaddad         ###   ########.fr       */
+/*   Updated: 2025/03/21 13:25:21 by zajaddad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,8 @@ void	ft_init_fractal(t_fractol *f)
 	}
 	f->img.addr = mlx_get_data_addr(f->img.img, &f->img.bits_per_pixel,
 			&f->img.line_length, &f->img.endian);
-	if (f->img.addr == NULL) {
+	if (f->img.addr == NULL)
 		clean(f);
-        }
 }
 
 /*

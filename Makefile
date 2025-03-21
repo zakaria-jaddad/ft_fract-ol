@@ -38,18 +38,20 @@ CFLAGS = -Wall -Werror -Wextra
 NAME = fractol
 NAME_BONUS = fractol_bonus
 
+LIB_PATH = ~/.local/lib/libmlx.a
+
 all: $(NAME)
 
 bonus: $(NAME_BONUS)
 
 $(NAME): $(MOBJ)
-	$(CC) $(CFLAGS) $(MOBJ) -Lmlx -lmlx -L/usr/lib -Imlx -lXext -lX11 -O3 -o $(NAME)
+	$(CC) $(CFLAGS) $(MOBJ) $(LIB_PATH) -L/usr/lib -lXext -lX11 -O3 -o $(NAME)
 
 $(NAME_BONUS): $(BOBJ)
-	$(CC) $(CFLAGS) $(BOBJ) -Lmlx -lmlx -L/usr/lib -Imlx -lXext -lX11 -O3 -o $(NAME_BONUS)
+	$(CC) $(CFLAGS) $(BOBJ) $(LIB_PATH) -L/usr/lib -lXext -lX11 -lm -O3 -o $(NAME_BONUS)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -Imlx -c -O3 $< -o  $@ -MMD
+	$(CC) $(CFLAGS) -c -O3 $< -o  $@ -MMD
 
 re: fclean all
 

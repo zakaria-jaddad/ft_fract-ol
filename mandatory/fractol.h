@@ -6,14 +6,14 @@
 /*   By: zajaddad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:37:35 by zajaddad          #+#    #+#             */
-/*   Updated: 2025/03/20 17:04:11 by zajaddad         ###   ########.fr       */
+/*   Updated: 2025/03/21 13:43:31 by zajaddad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
-# include "../mlx/mlx.h"
+# include "/home/zajaddad/.local/lib/mlx.h"
 # include <stdlib.h>
 # include <unistd.h>
 
@@ -59,7 +59,7 @@ typedef struct s_fractol
 	t_img		img;
 	double		zoom;
 	int			(*fractol)(struct s_fractol *f, double real, double i,
-					int iterations);
+			int iterations);
 
 }				t_fractol;
 

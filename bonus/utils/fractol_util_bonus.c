@@ -6,7 +6,7 @@
 /*   By: zajaddad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:49:52 by zajaddad          #+#    #+#             */
-/*   Updated: 2025/03/20 17:22:58 by zajaddad         ###   ########.fr       */
+/*   Updated: 2025/03/21 11:41:11 by zajaddad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,21 +64,21 @@ int	julia(t_fractol *f, double real, double i, int iterations)
 	return (iteration);
 }
 
-
-int     burning_ship(t_fractol *f, double real, double i, int iterations)
+int	burning_ship(t_fractol *f, double real, double i, int iterations)
 {
 	double	tmp_real;
 	int		iteration;
 
+	(void)!(f->z.i = f->z.real = 0, i *= -1, 0);
 	iteration = 0;
 	while (iteration < iterations)
 	{
-		tmp_real = (real * real) - (i * i) + f->z.real;
-		i = abs((int)(2 * real * i)) + f->z.i;
-		real = tmp_real;
-		iteration++;
-		if ((real * real + i * i) > 4)
+		tmp_real = (f->z.real * f->z.real) - (f->z.i * f->z.i) + real;
+		f->z.i = fabs(2 * (f->z.real * f->z.i)) + i;
+		f->z.real = tmp_real;
+		if ((f->z.real * f->z.real + f->z.i * f->z.i) > 4)
 			return (iteration);
+		iteration++;
 	}
 	return (iteration);
 }
@@ -97,8 +97,8 @@ void	draw_fractol(t_fractol *f)
 		y = 0;
 		while (y < HEIGHT)
 		{
-                        real = map(x, 0, WIDTH) / f->view.zoom + f->view.center_x;
-                        i = -map(y, 0, HEIGHT) / f->view.zoom + f->view.center_y;
+			real = map(x, 0, WIDTH) / f->view.zoom + f->view.center_x;
+			i = -map(y, 0, HEIGHT) / f->view.zoom + f->view.center_y;
 			color = f->fractol(f, real, i, ITERATION);
 			if (color == ITERATION)
 				my_pixel_put(&f->img, x, y, BLACK);

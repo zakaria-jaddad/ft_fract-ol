@@ -6,7 +6,7 @@
 /*   By: zajaddad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 21:53:28 by zajaddad          #+#    #+#             */
-/*   Updated: 2025/03/20 17:16:26 by zajaddad         ###   ########.fr       */
+/*   Updated: 2025/03/21 15:20:31 by zajaddad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,10 @@ void	zoom(int x, int y, t_fractol *f)
 	mouse_y = f->view.center_y - my / f->view.zoom;
 	f->zoom.target_x = mouse_x - mx / f->zoom.target_zoom;
 	f->zoom.target_y = mouse_y + my / f->zoom.target_zoom;
-	f->zoom.current_zoom += (f->zoom.target_zoom - f->zoom.current_zoom) * 1;
-	f->zoom.current_x += (f->zoom.target_x - f->zoom.current_x) * 1;
-	f->zoom.current_y += (f->zoom.target_y - f->zoom.current_y) * 1;
+	f->zoom.current_zoom += (f->zoom.target_zoom - f->zoom.current_zoom);
+	f->zoom.current_x += (f->zoom.target_x - f->zoom.current_x);
+	f->zoom.current_y += (f->zoom.target_y - f->zoom.current_y);
 	f->view.zoom = f->zoom.current_zoom;
 	f->view.center_x = f->zoom.current_x;
 	f->view.center_y = f->zoom.current_y;
 }
-
