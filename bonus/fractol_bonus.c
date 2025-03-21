@@ -6,7 +6,7 @@
 /*   By: zajaddad <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 17:11:37 by zajaddad          #+#    #+#             */
-/*   Updated: 2025/03/21 11:56:47 by zajaddad         ###   ########.fr       */
+/*   Updated: 2025/03/21 15:40:07 by zajaddad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,9 @@ void	ft_init_fractal(t_fractol *f)
 }
 
 /*
- * ./fractol mandelbrot
- * ./fractol julia <real> <i>
+ * ./fractol_bonus mandelbrot
+ * ./fractol_bonus julia <real> <i>
+ * ./fractol_bonus burning_ship
  */
 int	main(int argc, char **argv)
 {
